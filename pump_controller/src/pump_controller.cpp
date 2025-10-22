@@ -317,13 +317,13 @@ void controlMoist()
       return;
     }
 
-    // 🌱 Khi đất khô → bắt đầu chu kỳ mới
+    // Khi đất khô → bắt đầu chu kỳ mới
     if (moisturePercentage < moistPerLow && !pumpActive && rainLevel < 2)
     {
       cycleId++; // tăng chu kỳ ngay khi bắt đầu tưới mới
       Serial.printf("Đất khô → Bắt đầu tưới (Chu kỳ %d)\n", cycleId);
 
-      // 🆕 gửi lên ThingsBoard để đánh dấu bắt đầu chu kỳ
+      // gửi lên ThingsBoard để đánh dấu bắt đầu chu kỳ
       String payload = "{\"cycleId\":" + String(cycleId) + "}";
       client.publish("v1/devices/me/telemetry", payload.c_str());
       Serial.println("Sent cycle start marker");
