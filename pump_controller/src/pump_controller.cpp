@@ -200,26 +200,8 @@ void callback(char *topic, byte *payload, unsigned int length)
     // Lấy request ID (để phản hồi đúng yêu cầu RPC)
     int requestId = atoi(strrchr(topicStr.c_str(), '/') + 1);
 
-    // RPC: Lấy trạng thái chế độ (getMode)
-    if (msg.indexOf("getMode") >= 0)
-    {
-      String response = String(prevMode ? "true" : "false");
-      String topicRes = "v1/devices/me/rpc/response/" + String(requestId);
-      client.publish(topicRes.c_str(), response.c_str());
-      Serial.println("RPC getMode → " + response);
-    }
-
-    // RPC: Lấy trạng thái bơm (getWater)
-    else if (msg.indexOf("getWater") >= 0)
-    {
-      String response = String(togglePump ? "true" : "false");
-      String topicRes = "v1/devices/me/rpc/response/" + String(requestId);
-      client.publish(topicRes.c_str(), response.c_str());
-      Serial.println("RPC getWater → " + response);
-    }
-
     // RPC: Đổi chế độ AUTO / MANUAL
-    else if (msg.indexOf("setMode") >= 0)
+    if (msg.indexOf("setMode") >= 0)
     {
       bool newMode = msg.indexOf("true") >= 0;
       applyMode(newMode);
